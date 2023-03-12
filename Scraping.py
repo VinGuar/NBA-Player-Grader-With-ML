@@ -15,11 +15,11 @@ lastName = names[1]
 
 punctuations = '''!()-[];:'"\,<>./?@#$%^&*_~'''
 
-no_punct = ""
+none = ""
 
 for char in firstName:
     if char not in punctuations:
-        no_punct = no_punct + char
+        none = none + char
 
 firstName = no_punct
 
