@@ -21,7 +21,7 @@ for char in firstName:
     if char not in punctuations:
         none = none + char
 
-firstName = no_punct
+firstName = none
 
 no_punct = ""
 for char in lastName:
