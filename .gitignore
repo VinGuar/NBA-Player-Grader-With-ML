@@ -33,7 +33,6 @@ MANIFEST
 *.manifest
 *.spec
 .env 
-ddd.py
 
 # Installer logs
 pip-log.txt
