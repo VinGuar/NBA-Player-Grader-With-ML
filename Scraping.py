@@ -1,8 +1,13 @@
-from sportsipy.nba.roster import Player
-from sportsipy.nba.roster import Roster
+from nba_api.stats.endpoints import playercareerstats
 
-houston = Roster('BRK')
-for player in houston.players:
-    # Prints the name of all players who played for Houston in the most
-    # recent season.
-    print(player.name)
+# Nikola Jokić
+career = playercareerstats.PlayerCareerStats(player_id='203999') 
+
+# pandas data frames (optional: pip install pandas)
+career.get_data_frames()[0]
+
+# json
+career.get_json()
+
+# dictionary
+career.get_dict()
