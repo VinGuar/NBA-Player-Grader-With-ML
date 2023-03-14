@@ -1,13 +1,18 @@
-from nba_api.stats.endpoints import playercareerstats
+import requests
+import os
+from dotenv import load_dotenv
 
-# Nikola Jokić
-career = playercareerstats.PlayerCareerStats(player_id='203999') 
+load_dotenv()
 
-# pandas data frames (optional: pip install pandas)
-career.get_data_frames()[0]
+apiKey = os.environ.get("API_KEY")
+# Get the current roster for the team
+rosterUrl = f"https://api-nba-v1.p.rapidapi.com/teams/teamId/{4}"
+rosterHeaders = {
+    "X-RapidAPI-Key": apiKey,
+    "X-RapidAPI-Host": "api-nba-v1.p.rapidapi.com"
+}
+rosterResponse = requests.request("GET", rosterUrl, headers=rosterHeaders)
+rosterData = rosterResponse.json()
+currentRoster = [player["first_name"] + " " + player["last_name"] for player in rosterData["response"]]
 
-# json
-career.get_json()
-
-# dictionary
-career.get_dict()
+print(currentRoster)
