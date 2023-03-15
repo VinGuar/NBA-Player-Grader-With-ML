@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-def ScrapeURL(player1, season1):
+def scrapeURL(player1, season1):
 
     #remove punctuation for full name
     def nopunct(word):
@@ -20,11 +20,8 @@ def ScrapeURL(player1, season1):
 
     #creating first and last name variables for player
     names = player1.split()
-    print(names)
     firstName = names[0]
-    print(firstName)
     lastName = names[1]
-    print(lastName)
 
 
     url = "https://www.basketball-reference.com/players/"
@@ -51,6 +48,8 @@ def ScrapeURL(player1, season1):
     player_name = nopunct(player_name)
 
     index = url.index("01")
+    
+    print(player_name.lower(), player1.lower())
 
     #url construction with potential ability to have the same base code.
     while True:
@@ -81,7 +80,7 @@ def ScrapeURL(player1, season1):
 
 
 
-def ScrapeStats(url, season1):
+def scrapeStats(url, season1):
     #Making table with soup and pandas
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -124,8 +123,7 @@ def ScrapeStats(url, season1):
 
     #newDFS = newDFS[0]["eFG%"]
 
-    print(dictionary)
-
+    return dictionary
     
 
 
