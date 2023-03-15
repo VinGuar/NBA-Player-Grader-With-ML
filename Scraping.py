@@ -70,9 +70,7 @@ while True:
 
         player_name = nopunct(player_name)
 
-
         codeNum2 += 1
-
 
         if codeNum2>5:
             break
