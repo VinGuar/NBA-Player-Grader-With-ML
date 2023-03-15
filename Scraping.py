@@ -72,7 +72,7 @@ while True:
 
         codeNum2 += 1
 
-        if codeNum2>5:
+        if codeNum1>9:
             break
 
         if (codeNum2 % 10)==0:
@@ -115,11 +115,6 @@ while True:
     else:
         listID += 1
    
-print(seas)
-print(season1)
-print(listID)
-
-
 
 dictionary = {}
 
