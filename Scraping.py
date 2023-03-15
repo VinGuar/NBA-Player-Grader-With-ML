@@ -1,9 +1,8 @@
 import UserInput
 import requests
 from bs4 import BeautifulSoup
-import os
-from dotenv import load_dotenv
-load_dotenv()
+import pandas as pd
+
 
 #player name from User
 player1 = UserInput.player
@@ -25,6 +24,7 @@ for char in firstName:
 
 firstName = none
 
+#remove punctuation
 no_punct = ""
 for char in lastName:
     if char not in punctuations:
@@ -37,7 +37,7 @@ lastName = no_punct
 url = "https://www.basketball-reference.com/players/"
 
 
-
+#insert the player name part of the url
 url += (lastName[0].lower() + "/")
 for num in range(5):
     url += lastName[num].lower()
@@ -58,7 +58,7 @@ player_name = player_name.strip()
 
 index = url.index("01")
 
-
+#url construction with potential ability to have the same base code.
 while True:
     if player_name.lower() == player1.lower():
         break
@@ -85,6 +85,17 @@ while True:
 
 
 print(url)
+
+page = requests.get(url)
+soup = BeautifulSoup(page.content, 'html.parser')
+table = soup.find_all("table")
+
+dfs = pd.read_html(str(table))[0]
+
+print(dfs)
+#for table in soup.find_all ('table'):
+ #   print(table.get('class'))
+
 
 
 
