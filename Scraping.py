@@ -72,7 +72,7 @@ while True:
 
         codeNum2 += 1
 
-        if codeNum1>9:
+        if codeNum2>5:
             break
 
         if (codeNum2 % 10)==0:
