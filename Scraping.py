@@ -6,6 +6,7 @@ import pandas as pd
 
 #player name from User
 player1 = UserInput.player
+season1 = UserInput.season
 
 
 
@@ -99,11 +100,36 @@ newDFS = dfs.to_dict('index')
 
 listThrees = ["MP", "FG", "FGA", "FG%", "3P", "3PA", "3P%", "2P", "2PA", "2P%", "eFG%", "FT", "FTA", "FT%", "ORB", "DRB", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
 
+listID = 0
+
+while True:
+    while True:
+        try:
+            seas = newDFS[listID]["Season"]
+        except:
+            listID += 1
+        else:
+            break
+        
+        if listID>100:
+            print("Error. listID too high.")
+            exit()
+    
+    if seas == season1:
+        break
+    else:
+        listID += 1
+   
+print(seas)
+print(season1)
+print(listID)
+
+
 
 dictionary = {}
 
 for stat in listThrees:
-    dictionary[stat] = newDFS[0][stat]
+    dictionary[stat] = newDFS[listID][stat]
 
 
 #newDFS = newDFS[0]["eFG%"]

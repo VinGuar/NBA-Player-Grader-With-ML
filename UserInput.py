@@ -32,6 +32,7 @@ choice = int(choice)
 
 if (choice == 1):
     player = input("Please enter a players exact first and last name: ")
+    season = input("Please enter wanted season. Follow exact syntax: ####-##   (ex: 2022-23): ")
 
 
 
