@@ -1,38 +1,36 @@
-import PlayerRanking
-import TeamRankings
-import GameSimulations
+def inputNum():
+    #deciding which part of program to utilize
+    print("Which of the following options do you want?")
+    print("")
+    print("1: A particular NBA player's statistics and grade for a given year")
+    print("2: A list, up to a number of your choosing, of active NBA players currently on a team ranked in the current year")
+    print("3: A list of NBA teams both per conference and overall ranked in the current year")
+    print("4: A percentage predictor of a game between two particular teams")
+    print("")
 
-#tester1
+    choice = input("Please select a number 1-4 (no spaces) for these options: ")
 
-#deciding which part of program to utilize
-print("Which of the following options do you want?")
-print("")
-print("1: A particular NBA player's statistics and grade for a given year")
-print("2: A list, up to a number of your choosing, of NBA players ranked in the current year")
-print("3: A list, up to a number of your choosing, of NBA teams ranked in the current year")
-print("4: A percentage predictor of a game between two particular teams")
-print("")
-
-choice = input("Please select a number 1-4 (no spaces) for these options: ")
-
-#making sure choice is a number 1-4
-while True:
-    try:
-        int(choice)
-        if int(choice) in (1,2,3,4):
-            break
-        else:
+    #making sure choice is a number 1-4
+    while True:
+        try:
+            int(choice)
+            if int(choice) in (1,2,3,4):
+                break
+            else:
+                choice = input("Please enter a number digit 1-4 (no spaces): ")
+        except:
             choice = input("Please enter a number digit 1-4 (no spaces): ")
-    except:
-        choice = input("Please enter a number digit 1-4 (no spaces): ")
 
-#making choice an int
-choice = int(choice)
+    #making choice an int
+    choice = int(choice)
+    return choice
 
+def inputChoice(choice):
 
-if (choice == 1):
-    player = input("Please enter a players exact first and last name: ")
-    season = input("Please enter wanted season. Follow exact syntax: ####-##   (ex: 2022-23): ")
+    if (choice == 1):
+        return input("Please enter a players exact first and last name: ")
+    if choice == 5:
+        return input
 
 
 

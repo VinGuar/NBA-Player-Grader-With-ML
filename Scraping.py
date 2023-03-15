@@ -1,11 +1,10 @@
-import UserInput
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
 
 #player name from User
-player1 = UserInput.player
+player1 = UserInput.input(player)
 season1 = UserInput.season
 
 #remove punctuation for full name
