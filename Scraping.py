@@ -124,7 +124,44 @@ def scrapeStats(url, season1):
     #newDFS = newDFS[0]["eFG%"]
 
     return dictionary
+
+#team array for url
+teams = ["MIL", "BOS", "PHI", "CLE", "NYK", "BRK", "MIA", "ATL", "TOR", "WAS", "CHI", "IND", "ORL", "CHO", "DET", "DEN", "MEM", "SAC", "PHO", "GSW", "LAC", "MIN", "OKC", "DAL", "LAL", "UTA", "NOP", "POR", "SAS", "HOU"]
+teams.sort()
+players = []
+   
+def scrapeRosterURL(teamNum):
+    url = "https://www.basketball-reference.com/teams/"
+    url = url + teams[teamNum] + "/2023.html"
+    return url
+
+def scrapeActivePlayers():
     
+    for n in range (30):
+
+        url = scrapeRosterURL(n)
+
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        table = soup.find_all("table")
+        df1 = pd.read_html(str(table))[0]
+        df1 = df1.fillna(0)
+
+        df1 = df1.to_dict('index')
+
+
+        for x in range(len(df1)):
+
+            player = df1[x]["Player"]
+
+            if " (TW)" in player:
+                player = player.replace(' (TW)', '') 
+
+            players.append(player)
+            
+    return players
+
+
 
 
 

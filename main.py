@@ -4,7 +4,11 @@ import Scraping
 import TeamRankings
 import UserInput
 
+
+print(Scraping.scrapeActivePlayers())
+
 choice = UserInput.inputNum()
+
 
 if choice == 1:
     player = UserInput.inputChoice(choice)
