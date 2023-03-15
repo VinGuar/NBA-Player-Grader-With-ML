@@ -86,15 +86,31 @@ while True:
 
 print(url)
 
+#Making table with soup and pandas
 page = requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
 table = soup.find_all("table")
-
 dfs = pd.read_html(str(table))[0]
+dfs = dfs.fillna(0)
 
-print(dfs)
-#for table in soup.find_all ('table'):
- #   print(table.get('class'))
+#print(dfs.to_dict('index'))
+
+newDFS = dfs.to_dict('index')
+
+listThrees = ["MP", "FG", "FGA", "FG%", "3P", "3PA", "3P%", "2P", "2PA", "2P%", "eFG%", "FT", "FTA", "FT%", "ORB", "DRB", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
+
+
+dictionary = {}
+
+for stat in listThrees:
+    dictionary[stat] = newDFS[0][stat]
+
+
+#newDFS = newDFS[0]["eFG%"]
+
+print(dictionary)
+
+
 
 
 
