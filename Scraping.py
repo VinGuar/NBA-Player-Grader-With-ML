@@ -8,31 +8,24 @@ import pandas as pd
 player1 = UserInput.player
 season1 = UserInput.season
 
+#remove punctuation for full name
+def nopunct(word):
 
+    punctuations = '''!()-[];:'"\,<>./?@#$%^&*_~'''
+
+    no_punct = ""
+    for char in word:
+        if char not in punctuations:
+            no_punct = no_punct + char
+
+    return no_punct
+
+player1 = nopunct(player1)
 
 #creating first and last name variables for player
 names = player1.split()
 firstName = names[0]
 lastName = names[1]
-
-punctuations = '''!()-[];:'"\,<>./?@#$%^&*_~'''
-
-none = ""
-
-for char in firstName:
-    if char not in punctuations:
-        none = none + char
-
-firstName = none
-
-#remove punctuation
-no_punct = ""
-for char in lastName:
-    if char not in punctuations:
-        no_punct = no_punct + char
-
-lastName = no_punct
-
 
 
 url = "https://www.basketball-reference.com/players/"
@@ -56,6 +49,7 @@ page = requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
 player_name = soup.find('h1').text
 player_name = player_name.strip()
+player_name = nopunct(player_name)
 
 index = url.index("01")
 
@@ -73,6 +67,9 @@ while True:
 
         player_name = soup.find('h1').text
         player_name = player_name.strip()
+
+        player_name = nopunct(player_name)
+
 
         codeNum2 += 1
 
