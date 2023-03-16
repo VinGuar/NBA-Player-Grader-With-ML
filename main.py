@@ -7,6 +7,7 @@ import UserInput
 
 print(Scraping.scrapeActivePlayers())
 
+
 choice = UserInput.inputNum()
 
 

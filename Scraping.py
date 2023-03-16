@@ -1,8 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import time
+
+#make sure do not go over rate limit
+rate = 0
+def checkRate(r):
+    global rate
+    if r > 18:
+        rate = 0
+        time.sleep(60)
 
 def scrapeURL(player1, season1):
+
+    global rate
 
     #remove punctuation for full name
     def nopunct(word):
@@ -41,7 +52,10 @@ def scrapeURL(player1, season1):
     url += "01.html"
 
     #Finding name of player to check validity
+    checkRate(rate)
     page = requests.get(url)
+    rate += 1
+
     soup = BeautifulSoup(page.content, 'html.parser')
     player_name = soup.find('h1').text
     player_name = player_name.strip()
@@ -60,7 +74,10 @@ def scrapeURL(player1, season1):
             url = url + str(codeNum1) + str(codeNum2) + ".html"
 
             #redo player name with the new url
+            checkRate(rate)
             page = requests.get(url)
+            rate += 1
+
             soup = BeautifulSoup(page.content, 'html.parser')
 
             player_name = soup.find('h1').text
@@ -81,8 +98,13 @@ def scrapeURL(player1, season1):
 
 
 def scrapeStats(url, season1):
+    global rate
     #Making table with soup and pandas
+
+    checkRate(rate)
     page = requests.get(url)
+    rate += 1
+
     soup = BeautifulSoup(page.content, 'html.parser')
     table = soup.find_all("table")
     dfs = pd.read_html(str(table))[0]
@@ -130,18 +152,25 @@ teams = ["MIL", "BOS", "PHI", "CLE", "NYK", "BRK", "MIA", "ATL", "TOR", "WAS", "
 teams.sort()
 players = []
    
+#get the roster for teams
 def scrapeRosterURL(teamNum):
     url = "https://www.basketball-reference.com/teams/"
     url = url + teams[teamNum] + "/2023.html"
     return url
 
+#get dictionary of active players
 def scrapeActivePlayers():
-    
+    global rate
     for n in range (30):
+
+        #sportsreference limits 20 request per minute so need to wait a minute
 
         url = scrapeRosterURL(n)
 
+        checkRate(rate)
         page = requests.get(url)
+        rate += 1
+
         soup = BeautifulSoup(page.content, 'html.parser')
         table = soup.find_all("table")
         df1 = pd.read_html(str(table))[0]
