@@ -97,7 +97,7 @@ def scrapeURL(player1, season1):
 
 
 
-def scrapeStats(url, season1):
+def scrapeStats(url, season1, type):
     global rate
     #Making table with soup and pandas
 
@@ -107,21 +107,25 @@ def scrapeStats(url, season1):
 
     soup = BeautifulSoup(page.content, 'html.parser')
     table = soup.find_all("table")
-    dfs = pd.read_html(str(table))[0]
-    dfs = dfs.fillna(0)
+    dfs1 = pd.read_html(str(table))[0]
+    dfs2 = pd.read_html(str(table))[7]
+
+    return dfs2
+    dfs1 = dfs.fillna(0)
 
     #print(dfs.to_dict('index'))
 
-    newDFS = dfs.to_dict('index')
+    baseDFS = dfs1.to_dict('index')
 
-    listThrees = ["MP", "FG", "FGA", "FG%", "3P", "3PA", "3P%", "2P", "2PA", "2P%", "eFG%", "FT", "FTA", "FT%", "ORB", "DRB", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
-
+    baseStats = ["MP", "FG", "FGA", "FG%", "3P", "3PA", "3P%", "2P", "2PA", "2P%", "eFG%", "FT", "FTA", "FT%", "ORB", "DRB", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
+    advancedStats = ["PER", "TS%", "3PAr", "FTr", "ORB%", "DRB%", "TRB%", "AST%", "STL%", "BLK%", "TOV%", "USG%", "OWS", "DWS", "WS", "WS/48", "OBPM", "DBPM", "BPM", "VORP"]
+    
     listID = 0
 
     while True:
         while True:
             try:
-                seas = newDFS[listID]["Season"]
+                seas = baseDFS[listID]["Season"]
             except:
                 listID += 1
             else:
@@ -139,13 +143,14 @@ def scrapeStats(url, season1):
 
     dictionary = {}
 
-    for stat in listThrees:
-        dictionary[stat] = newDFS[listID][stat]
+    for stat in baseStats:
+        dictionary[stat] = baseDFS[listID][stat]
 
 
-    #newDFS = newDFS[0]["eFG%"]
 
     return dictionary
+
+    
 
 #team array for url
 teams = ["MIL", "BOS", "PHI", "CLE", "NYK", "BRK", "MIA", "ATL", "TOR", "WAS", "CHI", "IND", "ORL", "CHO", "DET", "DEN", "MEM", "SAC", "PHO", "GSW", "LAC", "MIN", "OKC", "DAL", "LAL", "UTA", "NOP", "POR", "SAS", "HOU"]

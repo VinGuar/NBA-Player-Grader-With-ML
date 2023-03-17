@@ -5,7 +5,7 @@ import TeamRankings
 import UserInput
 
 
-print(Scraping.scrapeActivePlayers())
+#print(Scraping.scrapeActivePlayers())
 
 
 choice = UserInput.inputNum()
@@ -19,5 +19,5 @@ if choice == 1:
 url = Scraping.scrapeURL(player, season)
 print(url)
 
-stats = Scraping.scrapeStats(url, season)
-print(url, stats)
+stats = Scraping.scrapeStats(url, season, "base")
+print(stats)
