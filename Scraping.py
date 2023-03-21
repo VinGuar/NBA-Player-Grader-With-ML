@@ -108,10 +108,9 @@ def scrapeStats(url, season1, type):
     soup = BeautifulSoup(page.content, 'html.parser')
     table = soup.find_all("table")
     dfs1 = pd.read_html(str(table))[0]
-    dfs2 = pd.read_html(str(table))[7]
+    #dfs2 = pd.read_html(str(table))[6]
 
-    return dfs2
-    dfs1 = dfs.fillna(0)
+    dfs1 = dfs1.fillna(0)
 
     #print(dfs.to_dict('index'))
 
