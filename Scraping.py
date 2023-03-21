@@ -1,199 +1,130 @@
+import UserInput
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import time
-
-#make sure do not go over rate limit
-rate = 0
-def checkRate(r):
-    global rate
-    if r > 18:
-        rate = 0
-        time.sleep(60)
-
-def scrapeURL(player1, season1):
-
-    global rate
-
-    #remove punctuation for full name
-    def nopunct(word):
-
-        punctuations = '''!()-[];:'"\,<>./?@#$%^&*_~'''
-
-        no_punct = ""
-        for char in word:
-            if char not in punctuations:
-                no_punct = no_punct + char
-
-        return no_punct
-
-    player1 = nopunct(player1)
-
-    #creating first and last name variables for player
-    names = player1.split()
-    firstName = names[0]
-    lastName = names[1]
 
 
-    url = "https://www.basketball-reference.com/players/"
+#player name from User
+player1 = UserInput.player
+season1 = UserInput.season
+
+#remove punctuation for full name
+def nopunct(word):
+
+    punctuations = '''!()-[];:'"\,<>./?@#$%^&*_~'''
+
+    no_punct = ""
+    for char in word:
+        if char not in punctuations:
+            no_punct = no_punct + char
+
+    return no_punct
+
+player1 = nopunct(player1)
+
+#creating first and last name variables for player
+names = player1.split()
+firstName = names[0]
+lastName = names[1]
 
 
-    #insert the player name part of the url
-    url += (lastName[0].lower() + "/")
-    for num in range(5):
-        url += lastName[num].lower()
-    for num in range (2):
-        url += firstName[num].lower()
-
-    codeNum1 = 0
-    codeNum2 = 2
+url = "https://www.basketball-reference.com/players/"
 
 
-    url += "01.html"
+#insert the player name part of the url
+url += (lastName[0].lower() + "/")
+for num in range(5):
+    url += lastName[num].lower()
+for num in range (2):
+    url += firstName[num].lower()
 
-    #Finding name of player to check validity
-    checkRate(rate)
-    page = requests.get(url)
-    rate += 1
-
-    soup = BeautifulSoup(page.content, 'html.parser')
-    player_name = soup.find('h1').text
-    player_name = player_name.strip()
-    player_name = nopunct(player_name)
-
-    index = url.index("01")
-    
-    print(player_name.lower(), player1.lower())
-
-    #url construction with potential ability to have the same base code.
-    while True:
-        if player_name.lower() == player1.lower():
-            break
-        else:
-            url = url[:index]
-            url = url + str(codeNum1) + str(codeNum2) + ".html"
-
-            #redo player name with the new url
-            checkRate(rate)
-            page = requests.get(url)
-            rate += 1
-
-            soup = BeautifulSoup(page.content, 'html.parser')
-
-            player_name = soup.find('h1').text
-            player_name = player_name.strip()
-
-            player_name = nopunct(player_name)
-
-            codeNum2 += 1
-
-            if codeNum2>5:
-                break
-
-            if (codeNum2 % 10)==0:
-                codeNum1 += 1
-                codeNum2 = codeNum2 - 10
-    return url
+codeNum1 = 0
+codeNum2 = 2
 
 
+url += "01.html"
 
-def scrapeStats(url, season1, type):
-    global rate
-    #Making table with soup and pandas
+#Finding name of player to check validity
+page = requests.get(url)
+soup = BeautifulSoup(page.content, 'html.parser')
+player_name = soup.find('h1').text
+player_name = player_name.strip()
+player_name = nopunct(player_name)
 
-    checkRate(rate)
-    page = requests.get(url)
-    rate += 1
+index = url.index("01")
 
-    soup = BeautifulSoup(page.content, 'html.parser')
-    table = soup.find_all("table")
-    dfs1 = pd.read_html(str(table))[0]
-    #dfs2 = pd.read_html(str(table))[6]
+#url construction with potential ability to have the same base code.
+while True:
+    if player_name.lower() == player1.lower():
+        break
+    else:
+        url = url[:index]
+        url = url + str(codeNum1) + str(codeNum2) + ".html"
 
-    dfs1 = dfs1.fillna(0)
-
-    #print(dfs.to_dict('index'))
-
-    baseDFS = dfs1.to_dict('index')
-
-    baseStats = ["MP", "FG", "FGA", "FG%", "3P", "3PA", "3P%", "2P", "2PA", "2P%", "eFG%", "FT", "FTA", "FT%", "ORB", "DRB", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
-    advancedStats = ["PER", "TS%", "3PAr", "FTr", "ORB%", "DRB%", "TRB%", "AST%", "STL%", "BLK%", "TOV%", "USG%", "OWS", "DWS", "WS", "WS/48", "OBPM", "DBPM", "BPM", "VORP"]
-    
-    listID = 0
-
-    while True:
-        while True:
-            try:
-                seas = baseDFS[listID]["Season"]
-            except:
-                listID += 1
-            else:
-                break
-            
-            if listID>100:
-                print("Error. listID too high.")
-                exit()
-        
-        if seas == season1:
-            break
-        else:
-            listID += 1
-    
-
-    dictionary = {}
-
-    for stat in baseStats:
-        dictionary[stat] = baseDFS[listID][stat]
-
-
-
-    return dictionary
-
-    
-
-#team array for url
-teams = ["MIL", "BOS", "PHI", "CLE", "NYK", "BRK", "MIA", "ATL", "TOR", "WAS", "CHI", "IND", "ORL", "CHO", "DET", "DEN", "MEM", "SAC", "PHO", "GSW", "LAC", "MIN", "OKC", "DAL", "LAL", "UTA", "NOP", "POR", "SAS", "HOU"]
-teams.sort()
-players = []
-   
-#get the roster for teams
-def scrapeRosterURL(teamNum):
-    url = "https://www.basketball-reference.com/teams/"
-    url = url + teams[teamNum] + "/2023.html"
-    return url
-
-#get dictionary of active players
-def scrapeActivePlayers():
-    global rate
-    for n in range (30):
-
-        #sportsreference limits 20 request per minute so need to wait a minute
-
-        url = scrapeRosterURL(n)
-
-        checkRate(rate)
+        #redo player name with the new url
         page = requests.get(url)
-        rate += 1
-
         soup = BeautifulSoup(page.content, 'html.parser')
-        table = soup.find_all("table")
-        df1 = pd.read_html(str(table))[0]
-        df1 = df1.fillna(0)
 
-        df1 = df1.to_dict('index')
+        player_name = soup.find('h1').text
+        player_name = player_name.strip()
+
+        player_name = nopunct(player_name)
+
+        codeNum2 += 1
+
+        if codeNum2>5:
+            break
+
+        if (codeNum2 % 10)==0:
+            codeNum1 += 1
+            codeNum2 = codeNum2 - 10
 
 
-        for x in range(len(df1)):
+print(url)
 
-            player = df1[x]["Player"]
+#Making table with soup and pandas
+page = requests.get(url)
+soup = BeautifulSoup(page.content, 'html.parser')
+table = soup.find_all("table")
+dfs = pd.read_html(str(table))[0]
+dfs = dfs.fillna(0)
 
-            if " (TW)" in player:
-                player = player.replace(' (TW)', '') 
+#print(dfs.to_dict('index'))
 
-            players.append(player)
-            
-    return players
+newDFS = dfs.to_dict('index')
 
+listThrees = ["MP", "FG", "FGA", "FG%", "3P", "3PA", "3P%", "2P", "2PA", "2P%", "eFG%", "FT", "FTA", "FT%", "ORB", "DRB", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
+
+listID = 0
+
+while True:
+    while True:
+        try:
+            seas = newDFS[listID]["Season"]
+        except:
+            listID += 1
+        else:
+            break
+        
+        if listID>100:
+            print("Error. listID too high.")
+            exit()
+    
+    if seas == season1:
+        break
+    else:
+        listID += 1
+   
+
+dictionary = {}
+
+for stat in listThrees:
+    dictionary[stat] = newDFS[listID][stat]
+
+
+#newDFS = newDFS[0]["eFG%"]
+
+print(dictionary)
 
 
 
