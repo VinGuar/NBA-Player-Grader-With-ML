@@ -21,10 +21,10 @@ def nopunct(word):
 
 
 def percentile(stats1, year, name):
-    year = 1980
+    #year = 1980
     df1 = pd.read_csv("Book2.csv")
     df1 = df1.drop('birth_year', axis=1)
-    df1 = df1.dropna()
+    df1 = df1.fillna(0)
     df1["player"] = df1["player"].apply(nopunct)
     df1['player'] = df1['player'].str.lower()
     name = nopunct(name)
@@ -37,7 +37,7 @@ def percentile(stats1, year, name):
 
     playerDF = df[df.player == name]
     playerDF = playerDF.reset_index()
-    position =  "C"
+    position = playerDF.iloc[0]["pos"]
 
     df = df[df.pos == position]
     df = df.reset_index()
