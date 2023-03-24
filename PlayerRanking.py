@@ -42,7 +42,11 @@ def percentile(stats1, year, name):
     playerDF = df[df.player == name]
     playerDF = playerDF.reset_index()
     position = playerDF.iloc[0]["pos"]
-    position = position[:2]
+
+    if (position[:1] == "C"):
+        position = "C"
+    else:
+        position = position[:2]
 
     df = df[df.pos == position]
     df = df.reset_index()
