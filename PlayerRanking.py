@@ -2,6 +2,7 @@ from scipy import stats
 import pandas as pd
 import numpy as np
 from itertools import chain
+from unidecode import unidecode
 
 
 
@@ -27,8 +28,12 @@ def percentile(stats1, year, name):
     df1 = df1.fillna(0)
     df1["player"] = df1["player"].apply(nopunct)
     df1['player'] = df1['player'].str.lower()
+    df1["player"] = df1["player"].apply(unidecode)
     name = nopunct(name)
     name = name.lower()
+    name = unidecode(name)
+
+
 
     df = df1[df1.season == year]
     df = df.reset_index()
@@ -37,6 +42,7 @@ def percentile(stats1, year, name):
     playerDF = df[df.player == name]
     playerDF = playerDF.reset_index()
     position = playerDF.iloc[0]["pos"]
+    position = position[:2]
 
     df = df[df.pos == position]
     df = df.reset_index()

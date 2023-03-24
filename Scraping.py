@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+from unidecode import unidecode
 
 #make sure do not go over rate limit
 rate = 0
@@ -28,6 +29,9 @@ def scrapeURL(player1, season1):
         return no_punct
 
     player1 = nopunct(player1)
+    player1 = unidecode(player1)
+    player1 = player1.lower()
+
 
     #creating first and last name variables for player
     names = player1.split()
@@ -60,6 +64,9 @@ def scrapeURL(player1, season1):
     player_name = soup.find('h1').text
     player_name = player_name.strip()
     player_name = nopunct(player_name)
+    player_name = unidecode(player_name)
+    player_name = player_name.lower()
+
 
     index = url.index("01")
     
@@ -67,7 +74,7 @@ def scrapeURL(player1, season1):
 
     #url construction with potential ability to have the same base code.
     while True:
-        if player_name.lower() == player1.lower():
+        if player_name == player1:
             break
         else:
             url = url[:index]
