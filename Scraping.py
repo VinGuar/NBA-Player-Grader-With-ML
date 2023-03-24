@@ -87,7 +87,7 @@ def scrapeURL(player1, season1):
 
             codeNum2 += 1
 
-            if codeNum2>15:
+            if codeNum2>8:
                 break
 
             if (codeNum2 % 10)==0:
