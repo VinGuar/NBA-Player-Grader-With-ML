@@ -32,8 +32,7 @@ def percentile(stats1, year, name):
 
     df = df1[df1.season == year]
     df = df.reset_index()
-    la = df[df.tm == "LAL"]
-    print(la)
+
 
     playerDF = df[df.player == name]
     playerDF = playerDF.reset_index()
@@ -46,10 +45,8 @@ def percentile(stats1, year, name):
     for key in stats1:
         current = stats1[key]
         header = df[df.columns[df.columns.str.contains(pat = key.lower())]] 
-        print(header)
         array1 =  header.values.tolist()
         array1 = list(chain.from_iterable(array1))
-        print(array1)
 
       
         percent = stats.percentileofscore(list(array1), float(current))

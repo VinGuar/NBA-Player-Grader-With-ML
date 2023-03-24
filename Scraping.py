@@ -63,7 +63,7 @@ def scrapeURL(player1, season1):
 
     index = url.index("01")
     
-    print(player_name.lower(), player1.lower())
+
 
     #url construction with potential ability to have the same base code.
     while True:
@@ -87,7 +87,7 @@ def scrapeURL(player1, season1):
 
             codeNum2 += 1
 
-            if codeNum2>5:
+            if codeNum2>15:
                 break
 
             if (codeNum2 % 10)==0:
