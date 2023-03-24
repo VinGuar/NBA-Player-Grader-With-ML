@@ -66,6 +66,7 @@ def scrapeURL(player1, season1):
     player_name = nopunct(player_name)
     player_name = unidecode(player_name)
     player_name = player_name.lower()
+    print(player_name, player1)
 
 
     index = url.index("01")
@@ -89,7 +90,8 @@ def scrapeURL(player1, season1):
 
             player_name = soup.find('h1').text
             player_name = player_name.strip()
-
+            player_name = unidecode(player_name)
+            player_name = player_name.lower()
             player_name = nopunct(player_name)
 
             codeNum2 += 1

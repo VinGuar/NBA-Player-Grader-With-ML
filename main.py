@@ -12,6 +12,7 @@ import PlayerRanking
 choice = UserInput.inputNum()
 
 
+
 if choice == 1:
     player = UserInput.inputChoice(choice)
     choice = 5
