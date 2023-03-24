@@ -30,7 +30,7 @@ def inputChoice(choice):
     if (choice == 1):
         return input("Please enter a players exact first and last name: ")
     if choice == 5:
-        return input("Please enter wanted season. Follow exact syntax: ####-##   (ex: 2022-23): ")
+        return input("Please enter wanted season. Follow exact syntax: ####-####   (ex: 2022-2023): ")
 
 
 
