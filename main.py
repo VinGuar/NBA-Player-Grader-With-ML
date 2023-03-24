@@ -3,6 +3,7 @@ import PlayerRanking
 import Scraping
 import TeamRankings
 import UserInput
+import PlayerRanking
 
 
 #print(Scraping.scrapeActivePlayers())
@@ -21,3 +22,7 @@ print(url)
 
 stats = Scraping.scrapeStats(url, season, "base")
 print(stats)
+
+percentiles = PlayerRanking.percentile(stats)
+print(percentiles)
+
