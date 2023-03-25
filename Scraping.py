@@ -44,10 +44,17 @@ def scrapeURL(player1, season1):
 
     #insert the player name part of the url
     url += (lastName[0].lower() + "/")
-    for num in range(5):
-        url += lastName[num].lower()
-    for num in range (2):
-        url += firstName[num].lower()
+    if len(lastName)>=5:
+        for num in range(5):
+            url += lastName[num].lower()
+    else:
+        url += lastName.lower()
+    
+    if len(firstName)>=2:
+        for num in range (2):
+            url += firstName[num].lower()
+    else:
+        url += firstName.lower()
 
     codeNum1 = 0
     codeNum2 = 2

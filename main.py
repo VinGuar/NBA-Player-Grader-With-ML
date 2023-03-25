@@ -32,4 +32,5 @@ percentile = PlayerRanking.percentile(stats, seasonNum, player, False)
 
 pos = PlayerRanking.percentile(stats, seasonNum, player, True)
 grade = PlayerRanking.grader(percentile, pos)
+print(percentile)
 print(grade)
