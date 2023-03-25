@@ -29,5 +29,9 @@ print(stats)
 seasonNum = seasonFull[-4:]
 seasonNum = int(seasonNum)
 
-percentile = PlayerRanking.percentile(stats, seasonNum, player)
+percentile = PlayerRanking.percentile(stats, seasonNum, player, False)
 print(percentile)
+
+pos = PlayerRanking.percentile(stats, seasonNum, player, True)
+grade = PlayerRanking.grader(percentile, pos)
+print(grade)
