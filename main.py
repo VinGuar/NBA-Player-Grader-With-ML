@@ -24,13 +24,11 @@ url = Scraping.scrapeURL(player, season)
 print(url)
 
 stats = Scraping.scrapeStats(url, season, "base")
-print(stats)
 
 seasonNum = seasonFull[-4:]
 seasonNum = int(seasonNum)
 
 percentile = PlayerRanking.percentile(stats, seasonNum, player, False)
-print(percentile)
 
 pos = PlayerRanking.percentile(stats, seasonNum, player, True)
 grade = PlayerRanking.grader(percentile, pos)

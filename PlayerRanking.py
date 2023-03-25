@@ -133,11 +133,11 @@ def grader(perc, pos):
         percNum = perc[key]
 
         if machNum>0:
-            posit+=percNum
+            posit+=machNum
             x += machNum*percNum
         else:
-            negat+=(percNum*.25)
-            x += machNum*percNum*.25
+            negat+=(machNum*.5)
+            x += machNum*percNum*.5
 
 
 
