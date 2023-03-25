@@ -24,7 +24,7 @@ def nopunct(word):
 def percentile(stats1, year, name, boolean):
     #year = 1980
     df1 = pd.read_csv("Book2.csv")
-    dfAll = pd.read_csv("allPlayer.csv")
+    dfAll = pd.read_csv("AllPlayer.csv")
     df1 = df1.drop('birth_year', axis=1)
     df1 = df1.fillna(0)
     dfAll = dfAll.fillna(0)
@@ -142,7 +142,7 @@ def grader(perc, pos):
             posit+=machNum
             x += machNum*percNum
         else:
-            machNum = machNum*5
+            machNum = machNum
             negat = negat + (machNum)
             x += machNum*percNum
 
