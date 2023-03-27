@@ -64,6 +64,7 @@ def scrapeURL(player1, season1):
 
     #Finding name of player to check validity
     checkRate(rate)
+    print(rate)
     page = requests.get(url)
     rate += 1
 
@@ -90,6 +91,7 @@ def scrapeURL(player1, season1):
 
             #redo player name with the new url
             checkRate(rate)
+            print(rate)
             page = requests.get(url)
             rate += 1
 
@@ -119,6 +121,7 @@ def scrapeStats(url, season1):
     dictionary = {}
 
     checkRate(rate)
+    print(rate)
     page = requests.get(url)
     rate += 1
 
@@ -203,6 +206,7 @@ def scrapePlayers(status, teamAbbr):
             url = scrapeRosterURL(status, n)
 
         checkRate(rate)
+        print(rate)
         page = requests.get(url)
         rate += 1
 
