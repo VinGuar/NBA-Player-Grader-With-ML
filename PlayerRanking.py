@@ -143,10 +143,10 @@ def grader(perc, pos):
                 posit = posit + machNum*2
                 x += machNum*percNum*2
             else: 
-                posit+=machNum
+                posit+=(machNum)
                 x += machNum*percNum
         else:
-            machNum = machNum*.5
+            machNum = machNum*.5a
             negat = negat + (machNum)
             x += machNum*percNum
 
