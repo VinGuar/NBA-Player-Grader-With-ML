@@ -177,13 +177,16 @@ def scrapeRosterURL(teamNum):
     return url
 
 #get dictionary of active players
-def scrapeActivePlayers():
+def scrapePlayers(status, teamAbbr):
     global rate
+    
     for n in range (30):
 
         #sportsreference limits 20 request per minute so need to wait a minute
-
-        url = scrapeRosterURL(n)
+        if status == True:
+            url = scrapeRosterURL(teamAbbr)
+        else:
+            url = scrapeRosterURL(n)
 
         checkRate(rate)
         page = requests.get(url)
@@ -205,5 +208,10 @@ def scrapeActivePlayers():
                 player = player.replace(' (TW)', '') 
 
             players.append(player)
+
+        if status == True:
+            break
+        
+
             
     return players
