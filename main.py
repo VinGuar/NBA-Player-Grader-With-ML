@@ -5,13 +5,19 @@ import TeamRankings
 import UserInput
 import PlayerRanking
 
+def makeTeamDict(rosterArr):
+    dict = {}
+    for n in range(len(rosterArr)):
+        name = rosterArr[n]
 
-#print(Scraping.scrapeActivePlayers())
+        url = Scraping.scrapeURL(name, "2022-23")
+        stats = Scraping.scrapeStats(url, "2022-23")
+
+        dict[name] = stats
+    return dict
 
 
 choice = UserInput.inputNum()
-
-
 
 if choice == 1:
     player = UserInput.inputChoice(choice)
@@ -22,8 +28,8 @@ if choice == 1:
     url = Scraping.scrapeURL(player, season)
     #print(url)
 
-    stats = Scraping.scrapeStats(url, season, "base")
-
+    stats = Scraping.scrapeStats(url, season)
+    print(stats)
     seasonNum = seasonFull[-4:]
 
     seasonNum = int(seasonNum)
@@ -37,15 +43,26 @@ if choice == 1:
 elif choice == 2:
     teamOne = UserInput.teamOne()
     teamTwo = UserInput.teamTwo()
+    status = True
+
+    rosterTeamOne = Scraping.scrapePlayers(status, teamOne)
+    rosterTeamTwo = Scraping.scrapePlayers(status, teamTwo)
+
+    #print(rosterTeamOne)
+    #print(rosterTeamTwo)
+    one = makeTeamDict(rosterTeamOne)
+    two = makeTeamDict(rosterTeamTwo)
+
+    print(one)
+    print(two)
+
+
+
+
+            
 
 
 
 
 
-status = True
 
-rosterTeamOne = Scraping.scrapePlayers(status, teamOne)
-rosterTeamTwo = Scraping.scrapePlayers(status, teamTwo)
-
-print(rosterTeamOne)
-print(rosterTeamTwo)

@@ -39,6 +39,8 @@ def percentile(stats1, year, name, boolean):
     name = name.lower()
     name = unidecode(name)
 
+    stats1.pop("MP")
+
 
 
     df = df1[df1.season == year]

@@ -8,7 +8,7 @@ from unidecode import unidecode
 rate = 0
 def checkRate(r):
     global rate
-    if r > 18:
+    if r > 17:
         rate = 0
         time.sleep(60)
 
@@ -81,6 +81,7 @@ def scrapeURL(player1, season1):
 
     #url construction with potential ability to have the same base code.
     while True:
+        print(player_name, player1)
         if player_name == player1:
             break
         else:
@@ -112,9 +113,10 @@ def scrapeURL(player1, season1):
 
 
 
-def scrapeStats(url, season1, type):
+def scrapeStats(url, season1):
     global rate
     #Making table with soup and pandas
+    dictionary = {}
 
     checkRate(rate)
     page = requests.get(url)
@@ -122,7 +124,12 @@ def scrapeStats(url, season1, type):
 
     soup = BeautifulSoup(page.content, 'html.parser')
     table = soup.find_all("table")
-    dfs1 = pd.read_html(str(table))[0]
+    try:
+        dfs1 = pd.read_html(str(table))[0]
+    except:
+        print("could not find table for url: " + url)
+        return dictionary
+    
     #dfs2 = pd.read_html(str(table))[7]
 
     dfs1 = dfs1.fillna(0)
@@ -131,8 +138,9 @@ def scrapeStats(url, season1, type):
 
     baseDFS = dfs1.to_dict('index')
 
-    baseStats = ["FG", "FGA", "3P", "3PA", "2P", "2PA", "FT", "FTA", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
+    baseStats = ["MP", "FG", "FGA", "3P", "3PA", "2P", "2PA", "FT", "FTA", "TRB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
     
+
     listID = 0
 
     while True:
@@ -145,8 +153,8 @@ def scrapeStats(url, season1, type):
                 break
             
             if listID>100:
-                print("Error. listID too high.")
-                exit()
+                print("Error. listID too high. Will return blank dict. URL was: " + url)
+                return dictionary
         
         if seas == season1:
             break
@@ -154,10 +162,12 @@ def scrapeStats(url, season1, type):
             listID += 1
     
 
-    dictionary = {}
 
     for stat in baseStats:
-        dictionary[stat] = baseDFS[listID][stat]
+        try:
+            dictionary[stat] = baseDFS[listID][stat]
+        except:
+            pass
 
 
 
@@ -168,25 +178,29 @@ def scrapeStats(url, season1, type):
 #team array for url
 teams = ["MIL", "BOS", "PHI", "CLE", "NYK", "BRK", "MIA", "ATL", "TOR", "WAS", "CHI", "IND", "ORL", "CHO", "DET", "DEN", "MEM", "SAC", "PHO", "GSW", "LAC", "MIN", "OKC", "DAL", "LAL", "UTA", "NOP", "POR", "SAS", "HOU"]
 teams.sort()
-players = []
    
 #get the roster for teams
-def scrapeRosterURL(teamNum):
+def scrapeRosterURL(status, teamNum):
     url = "https://www.basketball-reference.com/teams/"
-    url = url + teams[teamNum] + "/2023.html"
+    if status == False:
+        url = url + teams[teamNum] + "/2023.html"
+    else:
+        url = url + teamNum + "/2023.html"
+
     return url
 
 #get dictionary of active players
 def scrapePlayers(status, teamAbbr):
     global rate
-    
+    players = []
+
     for n in range (30):
 
         #sportsreference limits 20 request per minute so need to wait a minute
         if status == True:
-            url = scrapeRosterURL(teamAbbr)
+            url = scrapeRosterURL(status, teamAbbr)
         else:
-            url = scrapeRosterURL(n)
+            url = scrapeRosterURL(status, n)
 
         checkRate(rate)
         page = requests.get(url)
