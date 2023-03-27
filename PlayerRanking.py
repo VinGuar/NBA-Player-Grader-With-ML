@@ -140,13 +140,13 @@ def grader(perc, pos):
 
         if machNum>0:
             if key == "PTS":
-                posit = posit + machNum
-                x += machNum*percNum
+                posit = posit + machNum*2
+                x += machNum*percNum*2
             else: 
                 posit+=machNum
                 x += machNum*percNum
         else:
-            machNum = machNum
+            machNum = machNum*.5
             negat = negat + (machNum)
             x += machNum*percNum
 
