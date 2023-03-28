@@ -111,26 +111,21 @@ def scrapeURL(player1, season1):
             if (codeNum2 % 10)==0:
                 codeNum1 += 1
                 codeNum2 = codeNum2 - 10
-    return url
+    return soup
 
 
 
-def scrapeStats(url, season1):
+def scrapeStats(page, season1):
     global rate
     #Making table with soup and pandas
     dictionary = {}
 
-    checkRate(rate)
-    print(rate)
-    page = requests.get(url)
-    rate += 1
 
-    soup = BeautifulSoup(page.content, 'html.parser')
-    table = soup.find_all("table")
+    table = page.find_all("table")
     try:
         dfs1 = pd.read_html(str(table))[0]
     except:
-        print("could not find table for url: " + url)
+        print("could not find table for url")
         return dictionary
     
     #dfs2 = pd.read_html(str(table))[7]
@@ -156,7 +151,7 @@ def scrapeStats(url, season1):
                 break
             
             if listID>100:
-                print("Error. listID too high. Will return blank dict. URL was: " + url)
+                print("Error. listID too high. Will return blank dict.")
                 return dictionary
         
         if seas == season1:

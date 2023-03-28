@@ -16,6 +16,17 @@ def makeTeamDict(rosterArr):
         dict[name] = stats
     return dict
 
+def givePerc(rosterDict):
+    for key in rosterDict:
+        stats = rosterDict[key]
+        percentile = PlayerRanking.percentile(stats, "2023", key, False)
+
+        pos = PlayerRanking.percentile(stats, "2023", key, True)
+        grade = PlayerRanking.grader(percentile, pos)
+
+
+
+
 
 choice = UserInput.inputNum()
 
@@ -25,10 +36,10 @@ if choice == 1:
     seasonFull = UserInput.inputChoice(choice)
     season = seasonFull[:5] + seasonFull[-2:] 
 
-    url = Scraping.scrapeURL(player, season)
+    panda = Scraping.scrapeURL(player, season)
     #print(url)
 
-    stats = Scraping.scrapeStats(url, season)
+    stats = Scraping.scrapeStats(panda, season)
     print(stats)
     seasonNum = seasonFull[-4:]
 
@@ -46,15 +57,17 @@ elif choice == 2:
     status = True
 
     rosterTeamOne = Scraping.scrapePlayers(status, teamOne)
-    rosterTeamTwo = Scraping.scrapePlayers(status, teamTwo)
+    #rosterTeamTwo = Scraping.scrapePlayers(status, teamTwo)
 
     #print(rosterTeamOne)
     #print(rosterTeamTwo)
     one = makeTeamDict(rosterTeamOne)
-    two = makeTeamDict(rosterTeamTwo)
+    #two = makeTeamDict(rosterTeamTwo)
+
+    
 
     print(one)
-    print(two)
+    #print(two)
 
 
 
