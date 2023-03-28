@@ -21,7 +21,9 @@ def nopunct(word):
 
 
 
-def percentile(stats1, year, name, boolean):
+def percentile(stats1, year, name, boolean, yuh):
+    if yuh == True:
+        stats1.pop("MP")
     #year = 1980
     df1 = pd.read_csv("Book2.csv")
     dfAll = pd.read_csv("AllPlayer.csv")
@@ -39,7 +41,7 @@ def percentile(stats1, year, name, boolean):
     name = name.lower()
     name = unidecode(name)
 
-    stats1.pop("MP")
+
 
 
 
@@ -125,8 +127,11 @@ def getMach(pos):
         return c
     
 
-def grader(perc, pos):
+def grader(perc, pos, yuh2):
     
+    if yuh2 == True:
+        perc.pop("MP")
+
     x = 0
     posit = 0
     negat = 0

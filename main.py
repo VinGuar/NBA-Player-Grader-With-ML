@@ -12,17 +12,35 @@ def makeTeamDict(rosterArr):
 
         url = Scraping.scrapeURL(name, "2022-23")
         stats = Scraping.scrapeStats(url, "2022-23")
-
-        dict[name] = stats
+        if len(stats)<8:
+            continue
+        else:
+            dict[name] = stats
     return dict
 
-def givePerc(rosterDict):
-    for key in rosterDict:
-        stats = rosterDict[key]
-        percentile = PlayerRanking.percentile(stats, "2023", key, False)
+def giveGrade(rosterDict):
+    sortedDict = dict(sorted(rosterDict.items(), key=lambda item: item[1]['MP'], reverse=True))
+    for key in sortedDict:
+        totalMin = 0
+        stats = sortedDict[key]
+        mp = stats["MP"]
 
-        pos = PlayerRanking.percentile(stats, "2023", key, True)
-        grade = PlayerRanking.grader(percentile, pos)
+        percentile = PlayerRanking.percentile(stats, "2023", key, False, False)
+
+        pos = PlayerRanking.percentile(stats, "2023", key, True, False)
+
+        grade = PlayerRanking.grader(percentile, pos, True)
+
+        if (totalMin + mp)>243:
+            teamGrade = (243-totalMin)*grade
+            break
+        else:
+            teamGrade = mp*grade
+
+    teamGrade = teamGrade/243
+    return teamGrade
+
+            
 
 
 
@@ -44,12 +62,12 @@ if choice == 1:
     seasonNum = seasonFull[-4:]
 
     seasonNum = int(seasonNum)
-    percentile = PlayerRanking.percentile(stats, seasonNum, player, False)
-
-    pos = PlayerRanking.percentile(stats, seasonNum, player, True)
-    grade = PlayerRanking.grader(percentile, pos)
+    percentile = PlayerRanking.percentile(stats, seasonNum, player, False, True)
+    print(percentile)
+    pos = PlayerRanking.percentile(stats, seasonNum, player, True, False)
+    grade = PlayerRanking.grader(percentile, pos, False)
     #print(percentile)
-    print("Grade: " + grade)
+    print("Grade: ", grade)
 
 elif choice == 2:
     teamOne = UserInput.teamOne()
@@ -64,9 +82,10 @@ elif choice == 2:
     one = makeTeamDict(rosterTeamOne)
     #two = makeTeamDict(rosterTeamTwo)
 
-    
+    oneGrade = giveGrade(one)
 
     print(one)
+    print(oneGrade)
     #print(two)
 
 
