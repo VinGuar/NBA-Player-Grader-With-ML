@@ -163,3 +163,24 @@ def grader(perc, pos, yuh2):
 
     return x
      
+def per36(stats, year, name):
+
+    mp = stats["MP"]
+    mp = float(mp)
+    num = (36/mp)
+
+    for key in stats:
+        stat = stats[key]
+        stat = float(stat)
+        stats[key] = stat*num
+
+    stats.pop("MP")
+    percentDict = percentile(stats, year, name, False, False)
+    pos = percentile(stats, year, name, True, False)
+    grade = grader(percentDict, pos, False)
+
+    return grade
+
+
+
+

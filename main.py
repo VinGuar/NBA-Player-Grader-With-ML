@@ -26,26 +26,31 @@ def giveGrade(rosterDict):
     for key in sortedDict:
         if x > 9:
             break
+        if key == "LaMelo Ball":
+            continue
+
         stats = sortedDict[key]
         mp = stats["MP"]
         mp = float(mp)
         totalMin = totalMin + mp
+
+        statswmin2 = stats.copy()
         
         stats.pop("MP")
 
-        percentile = PlayerRanking.percentile(stats, 2023, key, False, False)
+        #percentile = PlayerRanking.percentile(stats, 2023, key, False, False)
+        #pos = PlayerRanking.percentile(stats, 2023, key, True, False)
+        #grade = PlayerRanking.grader(percentile, pos, False)
 
-        pos = PlayerRanking.percentile(stats, 2023, key, True, False)
-
-        grade = PlayerRanking.grader(percentile, pos, False)
+        per36 = PlayerRanking.per36(statswmin2, 2023, key)
         #print(grade, teamGrade, mp, totalMin)
 
         if (totalMin + mp)>230:
-            teamGrade = teamGrade + (230-totalMin)*grade
+            teamGrade = teamGrade + (230-totalMin)*per36
             totalMin = 230
             break
         else:
-            teamGrade = teamGrade + mp*grade
+            teamGrade = teamGrade + mp*per36
 
         x+=1
     print(totalMin)
@@ -70,16 +75,18 @@ if choice == 1:
     #print(url)
 
     stats = Scraping.scrapeStats(panda, season)
-    print(stats)
     seasonNum = seasonFull[-4:]
+
+    statswmin = stats.copy()
 
     seasonNum = int(seasonNum)
     percentile = PlayerRanking.percentile(stats, seasonNum, player, False, True)
     print(percentile)
     pos = PlayerRanking.percentile(stats, seasonNum, player, True, False)
     grade = PlayerRanking.grader(percentile, pos, False)
+    per36 = PlayerRanking.per36(statswmin, seasonNum, player)
     #print(percentile)
-    print("Grade: ", grade)
+    print(f"Grade: {grade} Per 36 grade: {per36}")
 
 elif choice == 2:
     teamOne = UserInput.teamOne()
