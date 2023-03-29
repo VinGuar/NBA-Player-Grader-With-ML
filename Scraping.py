@@ -10,7 +10,7 @@ def checkRate(r):
     global rate
     if r > 17:
         rate = 0
-        time.sleep(60)
+        time.sleep(61)
 
 def scrapeURL(player1, season1):
 
@@ -64,7 +64,7 @@ def scrapeURL(player1, season1):
 
     #Finding name of player to check validity
     checkRate(rate)
-    print(rate)
+    #print(rate)
     page = requests.get(url)
     rate += 1
 
@@ -82,7 +82,7 @@ def scrapeURL(player1, season1):
 
     #url construction with potential ability to have the same base code.
     while True:
-        print(player_name, player1)
+        #print(player_name, player1)
         if player_name == player1:
             break
         else:
@@ -91,7 +91,7 @@ def scrapeURL(player1, season1):
 
             #redo player name with the new url
             checkRate(rate)
-            print(rate)
+            #print(rate)
             page = requests.get(url)
             rate += 1
 
@@ -125,7 +125,7 @@ def scrapeStats(page, season1):
     try:
         dfs1 = pd.read_html(str(table))[0]
     except:
-        print("could not find table for url")
+        #print("could not find table for url")
         return dictionary
     
     #dfs2 = pd.read_html(str(table))[7]
@@ -151,7 +151,7 @@ def scrapeStats(page, season1):
                 break
             
             if listID>100:
-                print("Error. listID too high. Will return blank dict.")
+                #print("Error. listID too high. Will return blank dict.")
                 return dictionary
         
         if seas == season1:
@@ -201,7 +201,7 @@ def scrapePlayers(status, teamAbbr):
             url = scrapeRosterURL(status, n)
 
         checkRate(rate)
-        print(rate)
+        #print(rate)
         page = requests.get(url)
         rate += 1
 

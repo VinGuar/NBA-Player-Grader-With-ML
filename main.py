@@ -19,25 +19,37 @@ def makeTeamDict(rosterArr):
     return dict
 
 def giveGrade(rosterDict):
-    sortedDict = dict(sorted(rosterDict.items(), key=lambda item: item[1]['MP'], reverse=True))
+    sortedDict = dict(sorted(rosterDict.items(), key=lambda item: float(item[1]['MP']), reverse=True))
+    x = 0
+    totalMin = 0
+    teamGrade = 0
     for key in sortedDict:
-        totalMin = 0
+        if x > 9:
+            break
         stats = sortedDict[key]
         mp = stats["MP"]
+        mp = float(mp)
+        totalMin = totalMin + mp
+        
+        stats.pop("MP")
 
-        percentile = PlayerRanking.percentile(stats, "2023", key, False, False)
+        percentile = PlayerRanking.percentile(stats, 2023, key, False, False)
 
-        pos = PlayerRanking.percentile(stats, "2023", key, True, False)
+        pos = PlayerRanking.percentile(stats, 2023, key, True, False)
 
-        grade = PlayerRanking.grader(percentile, pos, True)
+        grade = PlayerRanking.grader(percentile, pos, False)
+        #print(grade, teamGrade, mp, totalMin)
 
-        if (totalMin + mp)>243:
-            teamGrade = (243-totalMin)*grade
+        if (totalMin + mp)>230:
+            teamGrade = teamGrade + (230-totalMin)*grade
+            totalMin = 230
             break
         else:
-            teamGrade = mp*grade
+            teamGrade = teamGrade + mp*grade
 
-    teamGrade = teamGrade/243
+        x+=1
+    print(totalMin)
+    teamGrade = teamGrade/totalMin
     return teamGrade
 
             
@@ -75,17 +87,18 @@ elif choice == 2:
     status = True
 
     rosterTeamOne = Scraping.scrapePlayers(status, teamOne)
-    #rosterTeamTwo = Scraping.scrapePlayers(status, teamTwo)
+    rosterTeamTwo = Scraping.scrapePlayers(status, teamTwo)
 
     #print(rosterTeamOne)
     #print(rosterTeamTwo)
     one = makeTeamDict(rosterTeamOne)
-    #two = makeTeamDict(rosterTeamTwo)
+    two = makeTeamDict(rosterTeamTwo)
 
     oneGrade = giveGrade(one)
+    twoGrade = giveGrade(two)
 
-    print(one)
-    print(oneGrade)
+    #print(one)
+    print(f"{teamOne} grade is: {oneGrade}, and {teamTwo} grade is: {twoGrade}")
     #print(two)
 
 
