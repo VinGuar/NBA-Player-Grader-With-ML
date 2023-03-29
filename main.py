@@ -24,7 +24,7 @@ def giveGrade(rosterDict):
     totalMin = 0
     teamGrade = 0
     for key in sortedDict:
-        if x > 9:
+        if x > 9
             break
         if key == "LaMelo Ball":
             continue
