@@ -22,20 +22,29 @@ def nopunct(word):
 #this function creates percentiles per position based on players stats and returns percentile dictionary
 #variables needed are the dictionary of stats, year, player name, boolean (if true) returns position, and boolean (if true) removes MP
 def percentile(stats1, year, name, posGetter, MPRemover):
+
+    #Removes MP
     if MPRemover == True:
         stats1.pop("MP")
-    df1 = pd.read_csv("Book2.csv")
+
+    #reads and cleans dataframe for all players to get percentile for that year. Has every player no matter what. Used to get position.
     dfAll = pd.read_csv("AllPlayer.csv")
-    df1 = df1.drop('birth_year', axis=1)
-    df1 = df1.fillna(0)
-    dfAll = dfAll.fillna(0)
-    dfAll = dfAll.drop('birth_year', axis=1)
-    df1["player"] = df1["player"].apply(nopunct)
-    df1['player'] = df1['player'].str.lower()
-    df1["player"] = df1["player"].apply(unidecode)
     dfAll["player"] = dfAll["player"].apply(nopunct)
     dfAll['player'] = dfAll['player'].str.lower()
     dfAll["player"] = dfAll["player"].apply(unidecode)
+    dfAll = dfAll.fillna(0)
+    dfAll = dfAll.drop('birth_year', axis=1)
+
+    #data frame of players above 18 minutes to ensure accurate percentile and not include low minute players
+    df1 = pd.read_csv("Book2.csv")
+    df1 = df1.drop('birth_year', axis=1)
+    df1 = df1.fillna(0)
+    #removes puncuation, makes it lower case and usable
+    df1["player"] = df1["player"].apply(nopunct)
+    df1['player'] = df1['player'].str.lower()
+    df1["player"] = df1["player"].apply(unidecode)
+
+    #removes puncuation, makes it lower case and usable
     name = nopunct(name)
     name = name.lower()
     name = unidecode(name)
