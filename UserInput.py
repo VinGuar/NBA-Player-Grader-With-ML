@@ -1,5 +1,6 @@
+#main input, returns what type of output they want
 def inputNum():
-    
+
     #deciding what should be printed at the end
     print("Which of the following options do you want?")
     print("")

@@ -1,3 +1,4 @@
+#importing needed libraries, tools, etc
 from scipy import stats
 import pandas as pd
 import numpy as np
@@ -5,7 +6,7 @@ from itertools import chain
 from unidecode import unidecode
 
 
-
+#remove puncuation from words to allow for user to not have to use them. returns word/name without punctuation
 def nopunct(word):
 
         punctuations = '''!()-[];:'"\,<>./?@#$%^&*_~'''
@@ -18,7 +19,7 @@ def nopunct(word):
         return no_punct
 
 
-
+#this function creates percentiles per position based on players stats and returns percentile dictionary
 def percentile(stats1, year, name, boolean, yuh):
     if yuh == True:
         stats1.pop("MP")
@@ -37,9 +38,6 @@ def percentile(stats1, year, name, boolean, yuh):
     name = nopunct(name)
     name = name.lower()
     name = unidecode(name)
-
-
-
 
 
     df = df1[df1.season == year]
@@ -76,6 +74,7 @@ def percentile(stats1, year, name, boolean, yuh):
 
     return stats1
 
+#This function matches the dictionaries keys of the machine learning dictionary to the stats dictionary, and returns sorted machine learning dictionary
 def fix2D(arr):
     x = 0
     arrNew = []
@@ -96,7 +95,7 @@ def fix2D(arr):
     return dictionary
 
 
-
+#sorts dictionary so both stats and machine learning numbers are same order and returns sorted dictionary
 def sorter(dictionary):
     myKeys = list(dictionary.keys())
     myKeys.sort()
@@ -105,7 +104,7 @@ def sorter(dictionary):
 
         
 
-
+#returns machine learning array per each position
 def getMach(pos):
     if pos=="PG":
         pg = [('playFGA', -0.6150401765027368), ('play2PA', -0.587864365884284), ('playFTA', -0.43491558462527713), ('play3PA', -0.372335754008891), ('playTO', -0.2928814224610756), ('playPF', -0.21098437240768603), ('playBLK', 0.1607203258682319), ('play2PM', 0.16970767529741962), ('playSTL', 0.2307367083975762), ('playTRB', 0.3280044638238135), ('playFGM', 0.3860068254120804), ('play3PM', 0.3885696291049632), ('playAST', 0.4340716794242032), ('playFTM', 0.4986970041813066), ('playPTS', 0.5123155820884346)]
@@ -123,7 +122,7 @@ def getMach(pos):
         c = [('playFGA', -0.457832179033364), ('play3PA', -0.36380637111678527), ('play2PA', -0.32728140285931084), ('playTO', -0.2537699464438458), ('playPF', -0.06858812708365918), ('playFTA', 0.05099487092167494), ('playSTL', 0.07873503986931603), ('playFTM', 0.09525562326899843), ('play2PM', 0.23571383953609684), ('playTRB', 0.24661538427329757), ('play3PM', 0.28770826333841515), ('playPTS', 0.3187824588087106), ('playFGM', 0.32039212543291645), ('playBLK', 0.35344011274347376), ('playAST', 0.3791307874748197)]
         return c
     
-
+#this is the main grader which is based on percentiles and position. returns grade.
 def grader(perc, pos, yuh2):
     
     if yuh2 == True:
@@ -160,7 +159,8 @@ def grader(perc, pos, yuh2):
     x = x/(posit+negat)
 
     return x
-     
+
+#this makes the stats based on per36 and then grades them based on this and returns per36 grade
 def per36(stats, year, name):
 
     mp = stats["MP"]
