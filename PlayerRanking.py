@@ -127,7 +127,7 @@ def getMach(pos):
         return c
     
 
-def grader(perc, pos, yuh2, teamBool):
+def grader(perc, pos, yuh2):
     
     if yuh2 == True:
         perc.pop("MP")

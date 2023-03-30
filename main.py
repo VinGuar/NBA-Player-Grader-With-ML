@@ -26,7 +26,7 @@ def giveGrade(rosterDict):
     for key in sortedDict:
         if x > 9:
             break
-        if key == "LaMelo Ball":
+        if key == "LaMelo Ball" or key == "Terry Rozier" or key == "Kelly Oubre Jr.":
             continue
 
         stats = sortedDict[key]
@@ -38,19 +38,19 @@ def giveGrade(rosterDict):
         
         stats.pop("MP")
 
-        #percentile = PlayerRanking.percentile(stats, 2023, key, False, False)
-        #pos = PlayerRanking.percentile(stats, 2023, key, True, False)
-        #grade = PlayerRanking.grader(percentile, pos, False)
+        percentile = PlayerRanking.percentile(stats, 2023, key, False, False)
+        pos = PlayerRanking.percentile(stats, 2023, key, True, False)
+        grade = PlayerRanking.grader(percentile, pos, False)
 
-        per36 = PlayerRanking.per36(statswmin2, 2023, key)
+        #per36 = PlayerRanking.per36(statswmin2, 2023, key)
         #print(grade, teamGrade, mp, totalMin)
 
         if (totalMin + mp)>230:
-            teamGrade = teamGrade + (230-totalMin)*per36
+            teamGrade = teamGrade + (230-totalMin)*grade
             totalMin = 230
             break
         else:
-            teamGrade = teamGrade + mp*per36
+            teamGrade = teamGrade + mp*grade
 
         x+=1
     print(totalMin)
