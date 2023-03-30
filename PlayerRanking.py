@@ -20,8 +20,9 @@ def nopunct(word):
 
 
 #this function creates percentiles per position based on players stats and returns percentile dictionary
-def percentile(stats1, year, name, boolean, yuh):
-    if yuh == True:
+#variables needed are the dictionary of stats, year, player name, boolean (if true) returns position, and boolean (if true) removes MP
+def percentile(stats1, year, name, posGetter, MPRemover):
+    if MPRemover == True:
         stats1.pop("MP")
     df1 = pd.read_csv("Book2.csv")
     dfAll = pd.read_csv("AllPlayer.csv")
@@ -53,7 +54,7 @@ def percentile(stats1, year, name, boolean, yuh):
     else:
         position = position[:2]
 
-    if boolean == True:
+    if posGetter == True:
         return position
     
 
@@ -74,7 +75,7 @@ def percentile(stats1, year, name, boolean, yuh):
 
     return stats1
 
-#This function matches the dictionaries keys of the machine learning dictionary to the stats dictionary, and returns sorted machine learning dictionary
+#This function matches the array keys of the machine learning dictionary to the stats dictionary, and returns machine learning as dictionary
 def fix2D(arr):
     x = 0
     arrNew = []
@@ -123,9 +124,10 @@ def getMach(pos):
         return c
     
 #this is the main grader which is based on percentiles and position. returns grade.
-def grader(perc, pos, yuh2):
+#takes in percentile dictionary, position, and boolean that removes MP (if true)
+def grader(perc, pos, MPRemover):
     
-    if yuh2 == True:
+    if MPRemover == True:
         perc.pop("MP")
 
     x = 0

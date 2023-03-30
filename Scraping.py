@@ -4,7 +4,7 @@ import pandas as pd
 import time
 from unidecode import unidecode
 
-#make sure do not go over rate limit
+#make sure do not go over rate limit of 20 requests per minute. If over puts in "jail" for an hour
 rate = 0
 def checkRate(r):
     global rate
@@ -12,6 +12,7 @@ def checkRate(r):
         rate = 0
         time.sleep(61)
 
+#scrapes URL for the player
 def scrapeURL(player1, season1):
 
     global rate
