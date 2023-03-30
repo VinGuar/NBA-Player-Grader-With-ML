@@ -5,6 +5,10 @@ import TeamRankings
 import UserInput
 import PlayerRanking
 
+"""
+The code below was originally going to be used to make a team-based grade using player stats, 
+however for purpose of program I am commenting it out.
+
 def makeTeamDict(rosterArr):
     dict = {}
     for n in range(len(rosterArr)):
@@ -57,6 +61,7 @@ def giveGrade(rosterDict):
     teamGrade = teamGrade/totalMin
     return teamGrade
 
+"""
             
 
 
@@ -65,7 +70,7 @@ def giveGrade(rosterDict):
 
 choice = UserInput.inputNum()
 
-if choice == 1:
+if choice == 1 or choice == 2 or choice == 3:
     player = UserInput.inputChoice(choice)
     choice = 5
     seasonFull = UserInput.inputChoice(choice)
@@ -86,7 +91,15 @@ if choice == 1:
     grade = PlayerRanking.grader(percentile, pos, False)
     per36 = PlayerRanking.per36(statswmin, seasonNum, player)
     #print(percentile)
-    print(f"Grade: {grade} Per 36 grade: {per36}")
+    if choice == 3:
+        print(f"Regular grade: {grade} Per 36 grade: {per36}")
+    elif choice == 2:
+        print(f"Per 36 grade: {per36}")
+    elif choice == 1:
+        print(f"Regular grade: {grade}")
+        
+"""
+Same thing as the top, this code belowwas to make team grades.
 
 elif choice == 2:
     teamOne = UserInput.teamOne()
@@ -107,6 +120,8 @@ elif choice == 2:
     #print(one)
     print(f"{teamOne} grade is: {oneGrade}, and {teamTwo} grade is: {twoGrade}")
     #print(two)
+
+"""
 
 
 

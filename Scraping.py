@@ -8,7 +8,7 @@ from unidecode import unidecode
 rate = 0
 def checkRate(r):
     global rate
-    if r > 17:
+    if r > 16:
         rate = 0
         time.sleep(61)
 
