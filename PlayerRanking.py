@@ -19,12 +19,9 @@ def nopunct(word):
 
 
 
-
-
 def percentile(stats1, year, name, boolean, yuh):
     if yuh == True:
         stats1.pop("MP")
-    #year = 1980
     df1 = pd.read_csv("Book2.csv")
     dfAll = pd.read_csv("AllPlayer.csv")
     df1 = df1.drop('birth_year', axis=1)
