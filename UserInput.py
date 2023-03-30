@@ -5,10 +5,6 @@ def inputNum():
     print("1: A particular NBA player's REGULAR/NORMAL grade, based on factors that predict winning, for a given year")
     print("2: A particular NBA player's per36 grade, based on factors that predict winning, for a given year")
     print("3: Both 1 and 2")
-
-
-    #print("2: A percentage predictor of a game between two particular teams")
-    #print("3: A list, up to a number of your choosing, of active NBA players currently on a team ranked in the current year")
     print("")
 
     choice = input("Please select a number 1-3 (no spaces) for these options: ")
@@ -35,12 +31,6 @@ def inputChoice(choice):
     if choice == 5:
         return input("Please enter wanted season. Follow exact syntax: ####-####   (ex: 2022-2023): ")
 
-
-def teamOne():
-    return input("Please enter 3 letter abbreviation for team 1 (Home team): ")
-
-def teamTwo():
-    return input("Please enter 3 letter abbreviation for team 2 (Away Team): ")
 
 
 

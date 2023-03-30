@@ -64,7 +64,6 @@ def scrapeURL(player1, season1):
 
     #Finding name of player to check validity
     checkRate(rate)
-    print(rate)
     page = requests.get(url)
     rate += 1
 
@@ -82,7 +81,6 @@ def scrapeURL(player1, season1):
 
     #url construction with potential ability to have the same base code.
     while True:
-        #print(player_name, player1)
         if player_name == player1:
             break
         else:
@@ -91,7 +89,6 @@ def scrapeURL(player1, season1):
 
             #redo player name with the new url
             checkRate(rate)
-            print(rate)
             page = requests.get(url)
             rate += 1
 
@@ -125,14 +122,11 @@ def scrapeStats(page, season1):
     try:
         dfs1 = pd.read_html(str(table))[0]
     except:
-        #print("could not find table for url")
         return dictionary
     
-    #dfs2 = pd.read_html(str(table))[7]
 
     dfs1 = dfs1.fillna(0)
 
-    #print(dfs.to_dict('index'))
 
     baseDFS = dfs1.to_dict('index')
 
@@ -151,7 +145,6 @@ def scrapeStats(page, season1):
                 break
             
             if listID>100:
-                #print("Error. listID too high. Will return blank dict.")
                 return dictionary
         
         if seas == season1:
@@ -173,58 +166,3 @@ def scrapeStats(page, season1):
 
     
 
-#team array for url
-teams = ["MIL", "BOS", "PHI", "CLE", "NYK", "BRK", "MIA", "ATL", "TOR", "WAS", "CHI", "IND", "ORL", "CHO", "DET", "DEN", "MEM", "SAC", "PHO", "GSW", "LAC", "MIN", "OKC", "DAL", "LAL", "UTA", "NOP", "POR", "SAS", "HOU"]
-teams.sort()
-   
-#get the roster for teams
-def scrapeRosterURL(status, teamNum):
-    url = "https://www.basketball-reference.com/teams/"
-    if status == False:
-        url = url + teams[teamNum] + "/2023.html"
-    else:
-        url = url + teamNum + "/2023.html"
-
-    return url
-
-#get dictionary of active players
-def scrapePlayers(status, teamAbbr):
-    global rate
-    players = []
-
-    for n in range (30):
-
-        #sportsreference limits 20 request per minute so need to wait a minute
-        if status == True:
-            url = scrapeRosterURL(status, teamAbbr)
-        else:
-            url = scrapeRosterURL(status, n)
-
-        checkRate(rate)
-        print(rate)
-        page = requests.get(url)
-        rate += 1
-
-        soup = BeautifulSoup(page.content, 'html.parser')
-        table = soup.find_all("table")
-        df1 = pd.read_html(str(table))[0]
-        df1 = df1.fillna(0)
-
-        df1 = df1.to_dict('index')
-
-
-        for x in range(len(df1)):
-
-            player = df1[x]["Player"]
-
-            if " (TW)" in player:
-                player = player.replace(' (TW)', '') 
-
-            players.append(player)
-
-        if status == True:
-            break
-        
-
-            
-    return players
