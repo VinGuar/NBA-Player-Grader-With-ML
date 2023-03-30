@@ -1,34 +1,47 @@
-import GameSimulations
+#imports all the different files in Repo needed for running
 import PlayerRanking
 import Scraping
-import TeamRankings
 import UserInput
-import PlayerRanking
 
+#get user input wanted
 choice = UserInput.inputNum()
 
-if choice == 1 or choice == 2 or choice == 3:
-    player = UserInput.inputChoice(choice)
-    choice = 5
-    seasonFull = UserInput.inputChoice(choice)
-    season = seasonFull[:5] + seasonFull[-2:] 
+#get player wanted
+player = UserInput.inputChoice(choice)
 
-    panda = Scraping.scrapeURL(player, season)
+#get season and create desirable template for it to be used
+choiceSecondary = 5
+seasonFull = UserInput.inputChoice(choiceSecondary)
+season = seasonFull[:5] + seasonFull[-2:] 
 
-    stats = Scraping.scrapeStats(panda, season)
-    seasonNum = seasonFull[-4:]
+#get the dataframe of player, and then the stats for player
+panda = Scraping.scrapeURL(player, season)
+stats = Scraping.scrapeStats(panda, season)
 
-    statswmin = stats.copy()
+#get season in template needed for percentile creation
+seasonNum = seasonFull[-4:]
+seasonNum = int(seasonNum)
 
-    seasonNum = int(seasonNum)
-    percentile = PlayerRanking.percentile(stats, seasonNum, player, False, True)
-    pos = PlayerRanking.percentile(stats, seasonNum, player, True, False)
-    grade = PlayerRanking.grader(percentile, pos, False)
-    per36 = PlayerRanking.per36(statswmin, seasonNum, player)
+#stats with minutes in it
+statswmin = stats.copy()
 
-    if choice == 3:
-        print(f"Regular grade: {grade} Per 36 grade: {per36}")
-    elif choice == 2:
-        print(f"Per 36 grade: {per36}")
-    elif choice == 1:
-        print(f"Regular grade: {grade}")
+#gets percentile dictionary
+percentile = PlayerRanking.percentile(stats, seasonNum, player, False, True)
+
+#gets position
+pos = PlayerRanking.percentile(stats, seasonNum, player, True, False)
+
+#normal grade
+grade = PlayerRanking.grader(percentile, pos, False)
+
+#per36 grade
+per36 = PlayerRanking.per36(statswmin, seasonNum, player)
+
+#prints out based on what the user requested.
+print("")
+if choice == 3:
+    print(f"Regular grade: {grade}      Per 36 grade: {per36}")
+elif choice == 2:
+    print(f"Per 36 grade: {per36}")
+elif choice == 1:
+    print(f"Regular grade: {grade}")
