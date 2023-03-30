@@ -39,6 +39,7 @@ def percentile(stats1, year, name, posGetter, MPRemover):
     df1 = pd.read_csv("Book2.csv")
     df1 = df1.drop('birth_year', axis=1)
     df1 = df1.fillna(0)
+
     #removes puncuation, makes it lower case and usable
     df1["player"] = df1["player"].apply(nopunct)
     df1['player'] = df1['player'].str.lower()
@@ -49,58 +50,74 @@ def percentile(stats1, year, name, posGetter, MPRemover):
     name = name.lower()
     name = unidecode(name)
 
-
+    #get dataframe for only year entered. Makes it fair to people in different eras.
     df = df1[df1.season == year]
     df = df.reset_index()
 
-
+    #get player position
     playerDF = dfAll[dfAll.player == name]
     playerDF = playerDF.reset_index()
     position = playerDF.iloc[0]["pos"]
 
+    #since center abbreviation is only one letter did this.
     if (position[:1] == "C"):
         position = "C"
     else:
         position = position[:2]
 
+    #if posGetter is true it just returns position. Needed because position is also needed for other functions.
     if posGetter == True:
         return position
     
 
-
+    #makes dataframe only position wanted. Not fair to judge a point guard against a center.
     df = df[df.pos == position]
     df = df.reset_index()
     
-
+    #for loop to create percentile dictionary 
     for key in stats1:
+
+        #this is the number of whatever the player has in key stat
         current = stats1[key]
+
+
+        #gets current stat/key/column of all values within it in the dataframe of players.
         header = df[df.columns[df.columns.str.contains(pat = key.lower())]] 
         array1 =  header.values.tolist()
         array1 = list(chain.from_iterable(array1))
 
-      
+        #uses the stats of all players in given position and key, and then the current stat number
+        #created percentile based on the players stat compared to all the other players stats
         percent = stats.percentileofscore(list(array1), float(current))
+
+        #updates the array in same position with percentile instead of stat
         stats1[key] = percent
 
     return stats1
 
 #This function matches the array keys of the machine learning dictionary to the stats dictionary, and returns machine learning as dictionary
 def fix2D(arr):
+
     x = 0
     arrNew = []
+
     while x < len(arr):
+        #removes first four letters(which is "Play") from the array
         str = arr[x][0]
         str = str[4:]
+
+        #removes "M", which is in 3PM/2PM/FTM, as wanted to match other dictionaries. Then alters TO to TOV.
         str = str.replace("M", "")
         if str == "TO":
             str = "TOV"
         
+        #updates array with new first value
         array = [str, arr[x][1]]
-
         arrNew.append(array)
 
         x+=1
 
+    #makes array into dictionary and returns it
     dictionary = dict(arrNew)
     return dictionary
 
@@ -114,7 +131,7 @@ def sorter(dictionary):
 
         
 
-#returns machine learning array per each position
+#returns machine learning array per each position. The numbers in array were obtained through machine learning, which is another file in this.
 def getMach(pos):
     if pos=="PG":
         pg = [('playFGA', -0.6150401765027368), ('play2PA', -0.587864365884284), ('playFTA', -0.43491558462527713), ('play3PA', -0.372335754008891), ('playTO', -0.2928814224610756), ('playPF', -0.21098437240768603), ('playBLK', 0.1607203258682319), ('play2PM', 0.16970767529741962), ('playSTL', 0.2307367083975762), ('playTRB', 0.3280044638238135), ('playFGM', 0.3860068254120804), ('play3PM', 0.3885696291049632), ('playAST', 0.4340716794242032), ('playFTM', 0.4986970041813066), ('playPTS', 0.5123155820884346)]
@@ -136,23 +153,29 @@ def getMach(pos):
 #takes in percentile dictionary, position, and boolean that removes MP (if true)
 def grader(perc, pos, MPRemover):
     
+    #removes MP
     if MPRemover == True:
         perc.pop("MP")
 
     x = 0
     posit = 0
     negat = 0
+
+    #makes machLearning and perc match each other
     machList = getMach(pos)
     machLearner = fix2D(machList)
     machLearner = sorter(machLearner)
     perc = sorter(perc)
 
+    #Where all grading is done
     for key in perc:
         
         machNum = machLearner[key]
         percNum = perc[key]
     
-
+        #Gives more emphasis on points and less punishment on the negatives. 
+        #This is needed or else star players are ranked far too low, as it is too harsh of a punisher and points are too low.
+        #multiplies percentile by coefficient from machine learning and adds them all
         if machNum>0:
             if key == "PTS":
                 posit = posit + machNum*2
@@ -166,7 +189,7 @@ def grader(perc, pos, MPRemover):
             x += machNum*percNum
 
 
-
+    #this is done so all positions are on same scale. If not done, positions with less positive factors are rated too harshly.
     x = x/(posit+negat)
 
     return x
@@ -174,15 +197,18 @@ def grader(perc, pos, MPRemover):
 #this makes the stats based on per36 and then grades them based on this and returns per36 grade
 def per36(stats, year, name):
 
+    #gets mp and multiplier needed
     mp = stats["MP"]
     mp = float(mp)
     num = (36/mp)
 
+    #makes stats on per36 basis
     for key in stats:
         stat = stats[key]
         stat = float(stat)
         stats[key] = stat*num
 
+    #removes MP and then does grading system done before with percentile, position, then grader.
     stats.pop("MP")
     percentDict = percentile(stats, year, name, False, False)
     pos = percentile(stats, year, name, True, False)
