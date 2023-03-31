@@ -6,7 +6,7 @@
 
 It goes back to when the 3 point line was invented in 1980. It gives both regular grades and grades based on per36 stats, whichever you may prefer.
 
-It is a great way to grade players and see how much they actually correlate towards a win. Some players are said to "put up empty stats", and this program is made to help see when players do that, among many other things.
+It is a great way to grade players and see how much they actually correlate towards a win. Some players are said to "put up empty stats", and this program is made to help see when players do that, among other things. Another example of the many uses is to see which players may be overrated or underrated to the public eye.
 
 <br/>
 
