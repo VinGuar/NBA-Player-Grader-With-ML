@@ -1,135 +1,47 @@
-import GameSimulations
+#imports all the different files in Repo needed for running
 import PlayerRanking
 import Scraping
-import TeamRankings
 import UserInput
-import PlayerRanking
 
-"""
-The code below was originally going to be used to make a team-based grade using player stats, 
-however for purpose of program I am commenting it out.
-
-def makeTeamDict(rosterArr):
-    dict = {}
-    for n in range(len(rosterArr)):
-        name = rosterArr[n]
-
-        url = Scraping.scrapeURL(name, "2022-23")
-        stats = Scraping.scrapeStats(url, "2022-23")
-        if len(stats)<8:
-            continue
-        else:
-            dict[name] = stats
-    return dict
-
-def giveGrade(rosterDict):
-    sortedDict = dict(sorted(rosterDict.items(), key=lambda item: float(item[1]['MP']), reverse=True))
-    x = 0
-    totalMin = 0
-    teamGrade = 0
-    for key in sortedDict:
-        if x > 9:
-            break
-        if key == "LaMelo Ball" or key == "Terry Rozier" or key == "Kelly Oubre Jr.":
-            continue
-
-        stats = sortedDict[key]
-        mp = stats["MP"]
-        mp = float(mp)
-        totalMin = totalMin + mp
-
-        statswmin2 = stats.copy()
-        
-        stats.pop("MP")
-
-        percentile = PlayerRanking.percentile(stats, 2023, key, False, False)
-        pos = PlayerRanking.percentile(stats, 2023, key, True, False)
-        grade = PlayerRanking.grader(percentile, pos, False)
-
-        #per36 = PlayerRanking.per36(statswmin2, 2023, key)
-        #print(grade, teamGrade, mp, totalMin)
-
-        if (totalMin + mp)>230:
-            teamGrade = teamGrade + (230-totalMin)*grade
-            totalMin = 230
-            break
-        else:
-            teamGrade = teamGrade + mp*grade
-
-        x+=1
-    print(totalMin)
-    teamGrade = teamGrade/totalMin
-    return teamGrade
-
-"""
-            
-
-
-
-
-
+#get user input wanted
 choice = UserInput.inputNum()
 
-if choice == 1 or choice == 2 or choice == 3:
-    player = UserInput.inputChoice(choice)
-    choice = 5
-    seasonFull = UserInput.inputChoice(choice)
-    season = seasonFull[:5] + seasonFull[-2:] 
+#get player wanted
+player = UserInput.inputChoice(choice)
 
-    panda = Scraping.scrapeURL(player, season)
-    #print(url)
+#get season and create desirable template for it to be used
+choiceSecondary = 5
+seasonFull = UserInput.inputChoice(choiceSecondary)
+season = seasonFull[:5] + seasonFull[-2:] 
 
-    stats = Scraping.scrapeStats(panda, season)
-    seasonNum = seasonFull[-4:]
+#get the dataframe of player, and then the stats for player
+panda = Scraping.scrapeURL(player)
+stats = Scraping.scrapeStats(panda, season)
 
-    statswmin = stats.copy()
+#get season in template needed for percentile creation
+seasonNum = seasonFull[-4:]
+seasonNum = int(seasonNum)
 
-    seasonNum = int(seasonNum)
-    percentile = PlayerRanking.percentile(stats, seasonNum, player, False, True)
-    print(percentile)
-    pos = PlayerRanking.percentile(stats, seasonNum, player, True, False)
-    grade = PlayerRanking.grader(percentile, pos, False)
-    per36 = PlayerRanking.per36(statswmin, seasonNum, player)
-    #print(percentile)
-    if choice == 3:
-        print(f"Regular grade: {grade} Per 36 grade: {per36}")
-    elif choice == 2:
-        print(f"Per 36 grade: {per36}")
-    elif choice == 1:
-        print(f"Regular grade: {grade}")
-        
-"""
-Same thing as the top, this code belowwas to make team grades.
+#stats with minutes in it
+statswmin = stats.copy()
 
+#gets percentile dictionary
+percentile = PlayerRanking.percentile(stats, seasonNum, player, False, True)
+
+#gets position
+pos = PlayerRanking.percentile(stats, seasonNum, player, True, False)
+
+#normal grade
+grade = PlayerRanking.grader(percentile, pos, False)
+
+#per36 grade
+per36 = PlayerRanking.per36(statswmin, seasonNum, player)
+
+#prints out based on what the user requested.
+print("")
+if choice == 3:
+    print(f"Regular grade: {grade}      Per 36 grade: {per36}")
 elif choice == 2:
-    teamOne = UserInput.teamOne()
-    teamTwo = UserInput.teamTwo()
-    status = True
-
-    rosterTeamOne = Scraping.scrapePlayers(status, teamOne)
-    rosterTeamTwo = Scraping.scrapePlayers(status, teamTwo)
-
-    #print(rosterTeamOne)
-    #print(rosterTeamTwo)
-    one = makeTeamDict(rosterTeamOne)
-    two = makeTeamDict(rosterTeamTwo)
-
-    oneGrade = giveGrade(one)
-    twoGrade = giveGrade(two)
-
-    #print(one)
-    print(f"{teamOne} grade is: {oneGrade}, and {teamTwo} grade is: {twoGrade}")
-    #print(two)
-
-"""
-
-
-
-
-            
-
-
-
-
-
-
+    print(f"Per 36 grade: {per36}")
+elif choice == 1:
+    print(f"Regular grade: {grade}")
