@@ -6,7 +6,7 @@ It goes back to when the 3 point line was invented in 1980. It gives both regula
 
 ### How it works
 -Uses ridge regression machine learning to find how much each stat correlates to a win per position. Uses 6 years of every single games data to find information.
-
+a
 -It then takes a player and makes it's stats into percentiles based on other players in their year and position and above 18 minutes a game. Also has option to make it per 36 minutes.
 
 -Then, it multiplies the percentile with the machine learning numbers to create the grade. Gives half as much importance to the negatives and twice to the points to help even it out.
