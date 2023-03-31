@@ -1,4 +1,4 @@
-# NBA_PlayerGradingSystem
+# NBA_PlayerGradingSystem  [https://andscape.com/wp-content/uploads/2017/06/nbalogo.jpg?w=700]
 
 This repository is a system to grade NBA players based on stats that correlate to winning, obtained from machine learning. 
 
