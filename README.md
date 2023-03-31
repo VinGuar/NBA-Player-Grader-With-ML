@@ -5,6 +5,7 @@ It goes back to when the 3 point line was invented in 1980. It gives both regula
 
 It is a great way to grade players and see how much they can actually correlate towards a win. Some players are said to "put up empty stats", and this program is made to help see when players do that. 
 
+<br/>
 
 ### How it works
 - Uses ridge regression machine learning to find how much each stat correlates to a win per position. Uses 6 years of every single games data to find information.
@@ -13,6 +14,7 @@ It is a great way to grade players and see how much they can actually correlate 
 
 - Then, it multiplies the percentile with the machine learning numbers to create the grade. Gives half as much importance to the negatives and twice to the points to help even it out.
 
+<br/>
 
 ### File breakdown
 
@@ -30,8 +32,9 @@ It is a great way to grade players and see how much they can actually correlate 
 
 - Scraping.py: This is where the URL is made and the stats is scraped from sportsreference
 
-UserInput.py: This is the file where the user input is obtained.
+- UserInput.py: This is the file where the user input is obtained.
 
+<br/>
 
 ### Other tips/information
 
