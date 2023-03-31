@@ -40,10 +40,12 @@ UserInput.py: This is the file where the user input is obtained.
 -If there is an error or it does not work, there are normally 3 common reasons. 1: Sportsreference is down or not working.  2: Player name or season were incorrectly entered.   3: You got rate limited from the website.
 
 <br/>
-<br/>
 
 
 ### Let me know if there is any questions or if you need help.
+
+<br/>
+
 
 ![NBA LOGO](https://andscape.com/wp-content/uploads/2017/06/nbalogo.jpg?w=700)
 
