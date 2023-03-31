@@ -2,7 +2,7 @@
 
 This repository is a system to grade NBA players going back to when the 3 point line was invented.
 
-## How it works
+##How it works
 -uses ridge regression machine learning to find
 
 
