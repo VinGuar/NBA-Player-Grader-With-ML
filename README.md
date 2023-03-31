@@ -2,7 +2,7 @@
 
 <br/>
 
-This repository is a system to grade NBA players based on stats that correlate to winning, obtained from machine learning. 
+###### This repository is a system to grade NBA players based on stats that correlate to winning, obtained from machine learning. 
 
 It goes back to when the 3 point line was invented in 1980. It gives both regular grades and grades based on per36 stats, whichever you may prefer.
 
