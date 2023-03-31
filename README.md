@@ -39,9 +39,9 @@ UserInput.py: This is the file where the user input is obtained.
 -Uses sportsreference for the information, and they only allow 20 requests per minute. If you ever go above 20, it will put you in "jail" for one hour and not let you use website, which makes the code not work.
 
 -If there is an error or it does not work, there are normally 3 common reasons. 1: Sportsreference is down or not working.  2: Player name or season were incorrectly entered.   3: You got rate limited from the website.
-
-
-
+ 
+ 
+ 
 #### Let me know if there is any questions or if you need help.
 
 
