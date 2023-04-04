@@ -37,6 +37,8 @@ It is a great way to grade players and see how much they actually correlate towa
 
 - UserInput.py: This is the file where the user input is obtained.
 
+<br/>
+
 
 ### Required installations
 
