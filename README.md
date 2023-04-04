@@ -37,6 +37,14 @@ It is a great way to grade players and see how much they actually correlate towa
 
 - UserInput.py: This is the file where the user input is obtained.
 
+### Required installations
+
+- python
+- all of the imported librarys/things on Scraping.py and PlayerRanking.py
+- html5lib (parsing)
+- lmxl (parsing)
+
+
 <br/>
 
 ### Other tips/information
