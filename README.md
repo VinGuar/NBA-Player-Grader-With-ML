@@ -36,7 +36,7 @@ It is a great way to grade players and see how much they actually correlate towa
 - Scraping.py: This is where the URL is made and the stats is scraped from sportsreference
 
 - UserInput.py: This is the file where the user input is obtained.
-- 
+
 
 ### Required installations
 
