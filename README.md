@@ -39,6 +39,17 @@ It is a great way to grade players and see how much they actually correlate towa
 
 <br/>
 
+
+### Required installations
+
+- python
+- all of the imported librarys/things on Scraping.py and PlayerRanking.py
+- html5lib (parsing)
+- lmxl (parsing)
+
+
+<br/>
+
 ### Other tips/information
 
 - Uses sportsreference for the information, and they only allow 20 requests per minute. If you ever go above 20, it will put you in "jail" for one hour and not let you use website, which makes the code not work.
