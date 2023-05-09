@@ -1,7 +1,7 @@
 #imports all the different files in Repo needed for running
-import PlayerRanking
-import Scraping
-import UserInput
+import python_files.PlayerRanking as PlayerRanking
+import python_files.Scraping as Scraping
+import python_files.UserInput as UserInput
 
 #get user input wanted
 choice = UserInput.inputNum()
@@ -17,7 +17,6 @@ season = seasonFull[:5] + seasonFull[-2:]
 #get the dataframe of player, and then the stats for player
 panda = Scraping.scrapeURL(player)
 stats = Scraping.scrapeStats(panda, season)
-
 #get season in template needed for percentile creation
 seasonNum = seasonFull[-4:]
 seasonNum = int(seasonNum)

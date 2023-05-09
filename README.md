@@ -45,6 +45,8 @@ It is a great way to grade players and see how much they actually correlate towa
 
 - If there is an error or it does not work, there are normally 3 common reasons. 1: Sportsreference is down or not working.  2: Player name or season were incorrectly entered.   3: You got rate limited from the website.
 
+- Sometimes layout and html of sportsreference changes, like for example index of table in scraping. So if it does not work, the reason could likely be the website changed, however this is a fairly easy fix.
+
 <br/>
 
 
