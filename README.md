@@ -42,10 +42,7 @@ It is a great way to grade players and see how much they actually correlate towa
 
 ### Required installations
 
-- python
-- all of the imported librarys/things on Scraping.py and PlayerRanking.py
-- html5lib (parsing)
-- lmxl (parsing)
+- requirements.txt
 
 
 <br/>

@@ -17,6 +17,7 @@ season = seasonFull[:5] + seasonFull[-2:]
 #get the dataframe of player, and then the stats for player
 panda = Scraping.scrapeURL(player)
 stats = Scraping.scrapeStats(panda, season)
+
 #get season in template needed for percentile creation
 seasonNum = seasonFull[-4:]
 seasonNum = int(seasonNum)
